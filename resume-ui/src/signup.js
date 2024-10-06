@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';  
+import { auth } from './Backend/firebase/firebase'; // Adjust this import based on your structure
+import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth'; 
 import './App.css';
 
 function Signup() {
@@ -31,6 +33,21 @@ function Signup() {
       }
     } catch (error) {
       setError("An error occurred. Please try again.");
+    }
+  };
+
+  const handleGoogleSignIn = async () => {
+    const provider = new GoogleAuthProvider();
+
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+
+      // You may want to store user information or handle redirection here
+      console.log(user);
+      navigate('/'); // Redirect after successful sign-up
+    } catch (error) {
+      setError(error.message);
     }
   };
 
@@ -100,6 +117,13 @@ function Signup() {
             <Link to="/">Already have an account? Click Here</Link>
           </div>
           <button type="submit" className="signin-btn">Sign up</button>
+          <button 
+            type="button" 
+            onClick={handleGoogleSignIn} 
+            className="signin-btn"
+          >
+            Continue with Google
+          </button>
         </form>
       </div>
     </div>
