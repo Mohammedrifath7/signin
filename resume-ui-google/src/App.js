@@ -4,6 +4,7 @@ import Signin from './signin';
 import Signup from './signup';
 import AdminPage from './AdminPage';
 import UserPage from './UserPage';
+import VerifyEmail from './VerifyPage';
 function App() {
   return (
     <Router>
@@ -12,6 +13,8 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/admin" element={<AdminPage />} />
         <Route path="/user" element={<UserPage />} />
+        <Route path="/verify-email" element={<VerifyEmail />} />
+
       </Routes>
     </Router>
   );
