@@ -27,7 +27,9 @@ const LogInSchema = new mongoose.Schema({
     type: String,
     enum: ['user', 'admin'],
     required: true
-  }
+  },
+  resetPasswordToken: String,
+  resetPasswordExpires: Date
 });
 
 const collection = new mongoose.model("LoginCollection", LogInSchema);
