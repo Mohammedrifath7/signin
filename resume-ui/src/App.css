@@ -91,33 +91,34 @@ body {
   background-color: #0056b3;
 }
 
+/* Google Sign-In Button */
+.google-signin-btn {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  background-color: #db4437;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+  text-align: center;
+  display: inline-block;
+}
+
+.google-signin-btn:hover {
+  background-color: #c33d30;
+}
+
+/* Optional: Add some spacing between form and Google button */
+.form-spacing {
+  margin-bottom: 15px;
+}
+
+/* Or divider text */
 .or-sign-in {
   text-align: center;
   margin: 20px 0;
   font-size: 14px;
-}
-
-.social-buttons {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-}
-
-.social-buttons button {
-  width: 50px;
-  height: 50px;
-  font-size: 24px;
-  border: none;
-  border-radius: 50%;
-  cursor: pointer;
-}
-
-.social-buttons .google {
-  background-color: #db4437;
-  color: white;
-}
-
-.social-buttons .linkedin {
-  background-color: #0077b5;
-  color: white;
+  color: #888;
 }

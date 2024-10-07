@@ -4,15 +4,15 @@ const cors = require("cors");
 const collection = require("./mongodb");
 
 // Admin access token
-const ADMIN_ACCESS_TOKEN = "123456789"; // The only valid access token for admin account creation
+const ADMIN_ACCESS_TOKEN = "123456789"; 
 
-// Enable CORS
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+// Signup API
 app.post('/signup', async (req, res) => {
-    const { name, password, role, accessToken } = req.body;
+    const { name, password, email, role, accessToken } = req.body;
 
     try {
         // If the role is 'admin', check the access token
@@ -23,7 +23,7 @@ app.post('/signup', async (req, res) => {
         }
 
         // Save user details to the database
-        const data = { name, password, role };
+        const data = { name, password, email, role };
         await collection.insertMany([data]);
         res.status(200).json({ message: "Signup successful" });
     } catch (error) {
@@ -31,15 +31,18 @@ app.post('/signup', async (req, res) => {
     }
 });
 
+// Login API
 app.post('/login', async (req, res) => {
-    const { name, password, role } = req.body;
+    const { nameOrEmail, password } = req.body;
 
     try {
-        // Check if the user exists
-        const check = await collection.findOne({ name });
+        // Find the user by either name or email
+        const check = await collection.findOne({
+            $or: [{ name: nameOrEmail }, { email: nameOrEmail }]
+        });
 
-        // Check if user exists, passwords match, and role is correct
-        if (check && check.password === password && check.role === role) {
+        // Validate password and login
+        if (check && check.password === password) {
             res.status(200).json({ message: "Login successful", role: check.role });
         } else {
             res.status(401).json({ message: "Invalid login details" });
@@ -51,4 +54,4 @@ app.post('/login', async (req, res) => {
 
 app.listen(3000, () => {
     console.log("Server is running on port 3000");
-});
+})
