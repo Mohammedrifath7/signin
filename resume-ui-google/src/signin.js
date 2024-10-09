@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { auth, firestore } from './Backend/firebase/firebase'; // Include Firestore
 import { doc, getDoc } from 'firebase/firestore'; // Firestore methods
 import { signInWithEmailAndPassword, sendPasswordResetEmail, GoogleAuthProvider, signInWithPopup, onAuthStateChanged } from 'firebase/auth';
-import './App.css';
+import './LoginForm.css';
 
 function Signin() {
   const [email, setEmail] = useState('');
@@ -63,7 +63,7 @@ function Signin() {
       
       // Firebase will automatically redirect based on the email verification in useEffect
     } catch (error) {
-      setError(error.message); // Display error if sign-in fails
+      setError("Invalid Login Credentials"); // Display error if sign-in fails
     }
   };
 
@@ -104,58 +104,46 @@ function Signin() {
   };
 
   return (
-    <div className="container">
-      <div className="left-panel">
-        <h2>Create a resume you are proud of</h2>
-        <p>Beat the competition using actionable, contextual advice</p>
-        <p>Highlight key achievements with memorable visuals</p>
-      </div>
-
-      <div className="right-panel">
-        <h2>Sign in</h2>
-        <form onSubmit={handleSubmit}>
-          <div className="input-group">
-            <label htmlFor="email">Email</label>
-            <input 
-              type="email" 
-              id="email" 
-              placeholder="example.email@gmail.com" 
-              required 
-              value={email} 
-              onChange={(e) => setEmail(e.target.value)} 
-            />
-          </div>
-          <div className="input-group">
-            <label htmlFor="password">Password</label>
-            <input 
-              type="password" 
-              id="password" 
-              placeholder="Enter at least 8+ characters" 
-              required 
-              value={password} 
-              onChange={(e) => setPassword(e.target.value)} 
-            />
-          </div>
-          {error && <p style={{ color: 'red' }}>{error}</p>}
-          <div className="forgot-password">
-            <button type="button" onClick={handleForgotPassword}>
-              Forgot password?
-            </button>
-          </div>
-          <div className="forgot-password">
-            <Link to="/signup">Don't have an account? Create here</Link>
-          </div>
-          <button type="submit" className="signin-btn">Sign in</button>
-          <button 
-            type="button" 
-            onClick={handleGoogleSignIn} 
-            className={`signin-btn ${isSigningIn ? 'disabled' : ''}`}
-            disabled={isSigningIn}
-          >
-            {isSigningIn ? 'Signing In...' : 'Continue with Google'}
+    <div className="wrapper">
+      <form onSubmit={handleSubmit}>
+        <h1>Login</h1>
+        <div className="input-box">
+          <input 
+            type="email" 
+            placeholder="example.email@gmail.com" 
+            required 
+            value={email} 
+            onChange={(e) => setEmail(e.target.value)} 
+          />
+        </div>
+        <div className="input-box">
+          <input 
+            type="password" 
+            placeholder="Enter at least 8+ characters" 
+            required 
+            value={password} 
+            onChange={(e) => setPassword(e.target.value)} 
+          />
+        </div>
+        {error && <p className="error-message">{error}</p>}
+        <div className="remember-forgot">
+          <button type="button" onClick={handleForgotPassword} className="forgot-password-btn">
+            Forgot password?
           </button>
-        </form>
-      </div>
+        </div>
+        <div className="remember-forgot">
+          <Link to="/signup" className="register-link">Don't have an account? Create here</Link>
+        </div>
+        <button type="submit" className="signin-btn">Sign in</button>
+        <button 
+          type="button" 
+          onClick={handleGoogleSignIn} 
+          className={`signin-btn ${isSigningIn ? 'disabled' : ''}`}
+          disabled={isSigningIn}
+        >
+          {isSigningIn ? 'Signing In...' : 'Continue with Google'}
+        </button>
+      </form>
     </div>
   );
 }
